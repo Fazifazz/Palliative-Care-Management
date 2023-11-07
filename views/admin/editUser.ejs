@@ -1,0 +1,58 @@
+<%- include('../layouts/header.ejs') %>
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0 text-center py-2">Edit user</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/users/<%= user._id %>?_method=PUT" method="POST">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" name="name" id="name" value="<%= user.name %>" class="form-control"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" name="email" id="email" value="<%= user.email %>"
+                                    class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mobile" class="form-label">Mobile</label>
+                                <input type="number" name="mobile" id="mobile" value="<%= user.mobile %>"
+                                    class="form-control" pattern="[0-9]{10}" required>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check disabled">
+                                    <input class="form-check-input" type="radio" name="is_varified" id="verify"
+                                        <%=user.is_varified===1 ? "checked" : "" %> value="1">
+                                    <label class="form-check-label" for="verify">
+                                        Verify
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check disabled">
+                                    <input class="form-check-input" type="radio" name="is_varified"
+                                        <%=user.is_varified===0 ? "checked" : "" %> id="not_verify" value="0">
+                                    <label class="form-check-label" for="not_verify">
+                                        Not Verify
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary rounded-pill">Update</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="d-grid mt-3">
+                    <a href="/admin/dashboard" class="btn btn-outline-secondary rounded-pill">Back to dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../layouts/footer.ejs') %>

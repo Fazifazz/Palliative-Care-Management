@@ -1,0 +1,84 @@
+<%- include('../layouts/header.ejs') %>
+    <div class="container pt-5">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <% if(message && typeof message !== 'undefined' ){ %>
+                    <div class="alert alert-success">
+                        <%= message %>
+                    </div>
+                    <% } %>
+                <% if(error && typeof error !== 'undefined' ){ %>
+                    <div class="alert alert-danger">
+                        <%= error %>
+                    </div>
+                    <% } %>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0 text-center py-2">Register Staff</h4>
+                            </div>
+                            <div class="card-body">
+                                <form method="post" id="register-form" action="/register" novalidate>
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" name="name" id="name" class="form-control"
+                                            placeholder="Enter your name" required>
+                                        <div class="invalid-feedback">
+                                            Please enter your fullname
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" id="email" name="email" class="form-control"
+                                            placeholder="Enter your Email" required>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid email
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" id="password" name="password" class="form-control"
+                                            placeholder="Enter your password" required>
+                                        <div class="invalid-feedback">
+                                            Please enter a password
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="mobile" class="form-label">Mobile</label>
+                                        <input type="mobile" id="mobile" name="mobile" class="form-control"
+                                            placeholder=" Enter your mobile no." pattern="[0-9]{10}" required>
+                                        <div class="invalid-feedback">
+                                            Please enter valid mobile number
+                                        </div>
+                                    </div>
+                                    <div class="d-grid mb-3">
+                                        <button type="submit" class="btn btn-primary rounded-pill">Register</button>
+                                    </div>
+                                    <div class="mb-1">
+                                        <p>Already have an account? <a href="/login">Log in</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("register-form")
+
+        console.log(form);
+
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                form.classList.add('was-validated')
+            } else {
+                form.submit()
+            }
+
+        }, false)
+    </script>
+
+
+    <%- include('../layouts/footer.ejs') %>

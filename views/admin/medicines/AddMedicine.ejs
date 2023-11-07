@@ -1,0 +1,121 @@
+<%- include('../../layouts/header.ejs') %>
+<div class="container pt-5">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <% if(message && typeof message !=='undefined' ){ %>
+      <div class="alert alert-success"><%= message %></div>
+      <% } %> <% if(error && typeof error !=='undefined' ){ %>
+      <div class="alert alert-danger"><%= error %></div>
+      <% } %>
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0 text-center py-2">Add new Medicine</h4>
+        </div>
+        <div class="card-body">
+          <form
+            method="post"
+            id="register-form"
+            action="/admin/createMedicine"
+            novalidate
+          >
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="form-control"
+                placeholder="Enter Medicine name"
+                required
+              />
+              <div class="invalid-feedback">medicine name is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Brand</label>
+              <input
+                type="text"
+                name="brand"
+                id="name"
+                class="form-control"
+                placeholder="Enter Medicine Brand"
+                required
+              />
+              <div class="invalid-feedback">medicine brand is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Batch</label>
+              <input
+                type="text"
+                name="batch"
+                id="name"
+                class="form-control"
+                placeholder="Enter Medicine Batch"
+                required
+              />
+              <div class="invalid-feedback">Medicine Batch is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="expiry" class="form-label">Expiry Date</label>
+              <input
+                type="date"
+                name="expiry"
+                id="expiry"
+                class="form-control"
+                placeholder="Enter expiry date"
+                required
+              />
+              <div class="invalid-feedback">expiry date is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="stock" class="form-label">Stock</label>
+              <input
+                type="number"
+                name="stock"
+                id="stock"
+                min="0"
+                class="form-control"
+                placeholder="Enter stock"
+                required
+              />
+              <div class="invalid-feedback">stock is required or invalid</div>
+            </div>
+
+            <div class="d-grid mb-3">
+              <button type="submit" class="btn btn-primary rounded-pill">
+                Add
+              </button>
+            </div>
+            <div class="d-grid mb-3">
+              <a href="/admin/medicines" class="btn btn-warning rounded-pill"
+                >Back</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("register-form");
+
+  console.log(form);
+
+  form.addEventListener(
+    "submit",
+    (event) => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add("was-validated");
+      } else {
+        form.submit();
+      }
+    },
+    false
+  );
+</script>
+
+<%- include('../../layouts/footer.ejs') %>

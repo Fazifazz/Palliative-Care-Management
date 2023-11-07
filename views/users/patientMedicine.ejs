@@ -1,0 +1,146 @@
+<%- include('../layouts/header.ejs') %>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Welcome <%=user.name %></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            More
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/">Patients</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="/medicines">Medicines</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" href="/distributionHistory"
+                >Medicines Distributions</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <form action="/logout" method="post" class="dropdown-item">
+                <button type="submit" class="dropdown-item p-0">Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <form action="/searchPatient" method="post">
+        <div class="d-flex">
+          <input
+            type="search"
+            name="q"
+            placeholder="Search Patient"
+            class="form-control rounded-pill"
+          />
+          <button type="submit" class="btn btn-success rounded-pill ms-2">
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h2>Current Medicines of <%=patient[0].name %></h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sl.No</th>
+        <th>Medicine Name</th>
+        <th>Batch no.</th>
+        <th>Brand</th>
+        <th>Expiry Date</th>
+        <th>Stocks Available</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% patientsMedicines.medicine.forEach((med)=>{ %>
+      <tr>
+        <td><%=med.Slno%></td>
+        <td><%=med.name%></td>
+        <td><%=med.batch%></td>
+        <td><%=med.brand%></td>
+        <td><%=med.expiry.toDateString()%></td>
+        <td><%=med.stock%></td>
+        <form
+          action="/distribute-medicines/<%= patient[0]._id %>"
+          method="post"
+        >
+          <td>
+            <label for="count">Count:</label>
+            <input type="number" name="count" style="width: 60px" value="12" />
+            <input type="hidden" value="<%=med._id%>" name="medicineId" />
+            <button type="submit" class="text-success">Provide Medicine</button>
+          </td>
+        </form>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<% if(recievedMedicines.length){ %>
+<div class="container mt-4">
+  <h2>Recieved Medicines of <%=patient[0].name %></h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Medicine Slno.</th>
+        <th>Medicine Name</th>
+        <th>Count</th>
+        <th>Recieved Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% recievedMedicines.forEach((med)=>{ %>
+      <tr>
+        <td><%=med.Slno%></td>
+        <td><%=med.medicineName%></td>
+        <td><%=med.count%></td>
+        <td><%=med.distributedDate.toDateString()%></td>
+        <td><%=med.distributedDate.toTimeString().split(" ")[0] %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<% }else{ %>
+<div class="container mt-4">
+  <center>
+    <p class="text-secondary">
+      No medicines received yet for <%=patient[0].name %>
+    </p>
+  </center>
+</div>
+
+<% } %>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+  crossorigin="anonymous"
+></script>
+
+<%- include('../layouts/footer') %>

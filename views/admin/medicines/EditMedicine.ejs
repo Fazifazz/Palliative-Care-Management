@@ -1,0 +1,127 @@
+<%- include('../../layouts/header.ejs') %>
+<div class="container pt-5">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <% if(message && typeof message !=='undefined' ){ %>
+      <div class="alert alert-success"><%= message %></div>
+      <% } %> <% if(error && typeof error !=='undefined' ){ %>
+      <div class="alert alert-danger"><%= error %></div>
+      <% } %>
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0 text-center py-2">Edit Medicine</h4>
+        </div>
+        <div class="card-body">
+          <form
+            method="post"
+            id="register-form"
+            action="/admin/editMedicine"
+            novalidate
+          >
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="form-control"
+                placeholder="Enter Medicine name"
+                value="<%= medicine.name %>"
+                required
+              />
+              <div class="invalid-feedback">medicine name is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Brand</label>
+              <input
+                type="text"
+                name="brand"
+                id="name"
+                class="form-control"
+                placeholder="Enter Medicine Brand"
+                value="<%= medicine.brand %>"
+                required
+              />
+              <div class="invalid-feedback">medicine brand is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Batch</label>
+              <input
+                type="text"
+                name="batch"
+                id="name"
+                class="form-control"
+                placeholder="Enter Medicine Batch"
+                value="<%= medicine.batch %>"
+                required
+              />
+              <div class="invalid-feedback">Medicine Batch is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="expiry" class="form-label">Expiry Date</label>
+              <input
+                type="date"
+                name="expiry"
+                id="expiry"
+                class="form-control"
+                placeholder="Enter expiry date"
+                value="<%= medicine.expiry.toISOString().split('T')[0] %>"
+                required
+              />
+              <div class="invalid-feedback">expiry date is required</div>
+            </div>
+            <div class="mb-3">
+              <label for="stock" class="form-label">Stock</label>
+              <input
+                type="number"
+                name="stock"
+                id="stock"
+                min="0"
+                class="form-control"
+                placeholder="Enter stock"
+                value="<%= medicine.stock %>"
+                required
+              />
+              <div class="invalid-feedback">stock is required or invalid</div>
+            </div>
+
+            <div class="d-grid mb-3">
+              <input type="hidden" name="id" value="<%= medicine.id %>">  
+              <button type="submit" class="btn btn-primary rounded-pill">
+                Update
+              </button>
+            </div>
+            <div class="d-grid mb-3">
+              <a href="/admin/medicines" class="btn btn-warning rounded-pill"
+                >Back</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("register-form");
+
+  console.log(form);
+
+  form.addEventListener(
+    "submit",
+    (event) => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add("was-validated");
+      } else {
+        form.submit();
+      }
+    },
+    false
+  );
+</script>
+
+<%- include('../../layouts/footer.ejs') %>

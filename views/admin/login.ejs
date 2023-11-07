@@ -1,0 +1,69 @@
+<%- include('../layouts/header.ejs') %>
+    <div class="container pt-5">
+        <div class="row justify-content-center">
+            <div class="col-4">
+
+                <% if(message && typeof message !=='undefined' ){ %>
+                    <div class="alert alert-success">
+                        <%= message %>
+                    </div>
+                    <% } %>
+                        <% if(error && typeof error !=='undefined' ){ %>
+                            <div class="alert alert-danger">
+                                <%= error %>
+                            </div>
+                            <% } %>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="mb-0 text-center py-2">Admin Login</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <form method="post" id="login-form" action="/admin/login" novalidate>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" id="email" name="email" class="form-control"
+                                                    placeholder="Enter your Email" required>
+                                                <div class="invalid-feedback">
+                                                    Please enter a valid email
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" id="password" name="password"
+                                                    class="form-control" placeholder="Enter your password" required>
+                                                <div class="invalid-feedback">
+                                                    Please enter a password
+                                                </div>
+                                            </div>
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-primary rounded-pill">Log in</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="d-grid pt-3">
+                                    <a href="/login" class="btn btn-secondary rounded-pill">Back to Staff login</a>
+                                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("login-form")
+
+        console.log(form);
+
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+                form.classList.add('was-validated')
+            } else {
+                form.submit()
+            }
+
+        }, false)
+    </script>
+
+
+    <%- include('../layouts/footer.ejs') %>

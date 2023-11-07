@@ -1,0 +1,142 @@
+<%- include('../layouts/header.ejs') %>
+<div class="container pt-5">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <% if(message && typeof message !=='undefined' ){ %>
+      <div class="alert alert-success"><%= message %></div>
+      <% } %> <% if(error && typeof error !=='undefined' ){ %>
+      <div class="alert alert-danger"><%= error %></div>
+      <% } %>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0 text-center py-2">Edit Patient</h4>
+        </div>
+        <div class="card-body">
+          <form
+            method="post"
+            id="register-form"
+            action="/admin/updatePatient"
+            novalidate
+          >
+            <div class="mb-3">
+              <label for="name" class="form-label">Patient Name</label>
+              <input
+                type="text"
+                name="name"
+                value="<%= patient[0].name %>"
+                id="name"
+                class="form-control"
+                placeholder="Enter name"
+                required
+              />
+              <div class="invalid-feedback">Please enter fullname</div>
+            </div>
+            <div class="mb-3">
+                <label for="mobile" class="form-label">Mobile</label>
+                <input type="mobile" id="mobile" name="mobile" value="<%= patient[0].mobile %>" class="form-control"
+                    placeholder=" Enter mobile no." pattern="[0-9]{10}" required>
+                <div class="invalid-feedback">
+                    Please enter mobile number
+                </div>
+            </div>
+            <div class="mb-3">
+              <label for="disease" class="form-label">Disease</label>
+              <input
+                type="text"
+                id="disease"
+                name="disease"
+                value="<%= patient[0].disease %>"
+                class="form-control"
+                placeholder=" Enter disease name"
+                required
+              />
+              <div class="invalid-feedback">Please enter disease name</div>
+            </div>
+            <div class="mb-3">
+              <label for="DoctorName" class="form-label">Doctor name</label>
+              <input
+                type="text"
+                id="Doctor's name"
+                name="DoctorName"
+                value="<%= patient[0].DoctorName %>"
+                class="form-control"
+                placeholder=" Enter Doctor's name"
+                required
+              />
+              <div class="invalid-feedback">Please enter Doctor's name</div>
+            </div>
+
+              <div class="mb-3">
+                <label for="currentMedicines" style="color: green;"><b>Current Medicines:</b></label>
+                <% currentMedicines.medicine.forEach((med)=>{ %>
+                <small><%=med.name  %><br/></small>
+                <% }) %>
+              </div>
+
+            <div class="mb-3">
+              <label for="medicines" class="form-label"><b>Add Medicines:</b><small class="text-warning">(select the current medicines if they are needed..otherwise medicines become blank on updating)</small></label>
+              <div class="custom-dropdown">
+                <div class="dropdown-content">
+                  <% medicines.forEach(function(medicine) { %>
+                    <label for="<%= medicine.id %>">
+                      <input type="checkbox" name="selectedMedicines" value="<%= medicine.id %>" id="<%= medicine.id %>">
+                      <%= medicine.name %>
+                    </label>
+                  <% }); %>
+                </div>
+              </div>
+              <div class="invalid-feedback">Please select the medicines</div>
+            </div>
+            
+
+            <div class="d-grid mb-3">
+              <input type="hidden" name="id" value="<%=patient[0]._id%>">
+              <button type="submit" class="btn btn-primary rounded-pill">
+                Update
+              </button>
+            </div>
+            <div class="d-grid mb-3">
+              <a href="/admin/patients" class="btn btn-warning rounded-pill"
+                >Back</a
+              >
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("register-form");
+
+  console.log(form);
+
+  form.addEventListener(
+    "submit",
+    (event) => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add("was-validated");
+      } else {
+        form.submit();
+      }
+    },
+    false
+  );
+
+  const itemSelect = document.getElementById("itemSelect");
+  const selectedItems = document.getElementById("selectedItems");
+
+  itemSelect.addEventListener("change", updateSelectedItems);
+
+  function updateSelectedItems() {
+    const selectedOptions = Array.from(itemSelect.selectedOptions).map(
+      (option) => option.text
+    );
+    selectedItems.value = selectedOptions.join(", ");
+  }
+</script>
+
+<%- include('../layouts/footer.ejs') %>

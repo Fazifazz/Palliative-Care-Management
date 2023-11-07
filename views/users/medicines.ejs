@@ -1,0 +1,93 @@
+<%- include('../layouts/header.ejs') %>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Welcome <%=user.name %></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            More
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/">Patients</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="/medicines">Medicines</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" href="/distributionHistory"
+                >Medicines Distributions</a
+              >
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <form action="/logout" method="post" class="dropdown-item">
+                <button type="submit" class="dropdown-item p-0">Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <form action="/searchPatient" method="post">
+        <div class="d-flex">
+          <input
+            type="search"
+            name="q"
+            placeholder="Search Patient"
+            class="form-control rounded-pill"
+          />
+          <button type="submit" class="btn btn-success rounded-pill ms-2">
+            Search
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Slno.</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>batch</th>
+                <th>stock</th>
+                <th>expiry</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% medicines.forEach(medicine => { %>
+                <tr>
+                    <td><%= medicine.Slno %></td>
+                    <td><%= medicine.name %></td>
+                    <td><%= medicine.brand %></td>
+                    <td><%= medicine.batch %></td>
+                    <td><%= medicine.stock %></td>
+                    <td><%= medicine.expiry.toDateString() %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<%- include('../layouts/footer.ejs') %>
