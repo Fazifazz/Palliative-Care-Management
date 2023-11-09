@@ -20,6 +20,7 @@ user_route.post('/searchMedicine',isLogged,isVerified,userController.searchMedic
 user_route.get('/patientMedicines/:id',isLogged,isVerified,userController.getPatientMedicines)
 user_route.post("/distribute-medicines/:patientId", isLogged,isVerified,userController.distributeMedicines);
 user_route.get("/distributionHistory",isLogged,isVerified, userController.distributioHistory);
+user_route.get('/printList/:id',isLogged,isVerified,userController.printList)
 
 
 

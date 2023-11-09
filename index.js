@@ -19,8 +19,8 @@ app.use(session({
     saveUninitialized: true
 }))
 app.use(nocache())
-app.use(flash())
 app.use(methodOverride('_method'))
+app.use(flash())
 
 
 app.use('/', userRoute)

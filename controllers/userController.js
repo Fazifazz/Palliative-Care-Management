@@ -116,17 +116,17 @@ const searchPatient = async (req, res) => {
       patients = await Patient.aggregate([
         {
           $match: {
-            name: { $regex: ".*" + q + ".*" }
-          }
+            name: { $regex: ".*" + q + ".*" },
+          },
         },
         {
           $lookup: {
             from: "medicines",
             localField: "Medicines.medicine",
             foreignField: "_id",
-            as: "Medicines.medicine"
-          }
-        }
+            as: "Medicines.medicine",
+          },
+        },
       ]);
     } else {
       patients = await Patient.aggregate([
@@ -135,9 +135,9 @@ const searchPatient = async (req, res) => {
             from: "medicines",
             localField: "Medicines.medicine",
             foreignField: "_id",
-            as: "Medicines.medicine"
-          }
-        }
+            as: "Medicines.medicine",
+          },
+        },
       ]);
     }
     res.render("users/index", { user, patients, message: null, error: null });
@@ -203,8 +203,8 @@ const getPatientMedicines = async (req, res) => {
       },
     ]);
     const patientsMedicines = patient[0].Medicines;
-    const recievedMedicines = await MedicineDistribution.find({patient:id})
-    console.log(recievedMedicines)
+    const recievedMedicines = await MedicineDistribution.find({ patient: id });
+    console.log(recievedMedicines);
 
     res.render("users/patientMedicine", {
       message: null,
@@ -213,7 +213,8 @@ const getPatientMedicines = async (req, res) => {
       user,
       patientsMedicines,
       error: req.flash("error"),
-      recievedMedicines
+      success: req.flash("success"),
+      recievedMedicines,
     });
   } catch (error) {
     console.log(error.message);
@@ -234,11 +235,17 @@ const distributeMedicines = async (req, res) => {
     }
 
     const countNumber = parseInt(count, 10);
-
+    
     if (isNaN(countNumber)) {
+      req.flash("error", "please enter a valid count");
       return res.status(400).json({ error: "Invalid medicine count" });
     }
     if (countNumber > selectedMedicine.stock) {
+      req.flash("error", "please enter a count less than stock");
+      return res.redirect(`/patientMedicines/${patientId}`);
+    }
+    if (countNumber < 1) {
+      req.flash("error", "Invalid medicine count");
       return res.redirect(`/patientMedicines/${patientId}`);
     }
     const medicineDetails = {
@@ -257,7 +264,7 @@ const distributeMedicines = async (req, res) => {
       $set: { stock: Newstock },
     });
     await MedicineDistribution.create({
-      Slno:selectedMedicine.Slno,
+      Slno: selectedMedicine.Slno,
       medicine: medicineId,
       medicineName: selectedMedicine.name,
       count: countNumber,
@@ -266,7 +273,10 @@ const distributeMedicines = async (req, res) => {
       patient: patientId,
     });
     const mds = await MedicineDistribution.find();
-    console.log(mds);
+    req.flash(
+      "success",
+      `${selectedMedicine.name} is disitributed successfully`
+    );
     res.redirect(`/patientMedicines/${patientId}`);
   } catch (error) {
     console.log(error.message);
@@ -274,14 +284,23 @@ const distributeMedicines = async (req, res) => {
   }
 };
 
-const distributioHistory = async (req,res)=>{
+const distributioHistory = async (req, res) => {
   try {
     const user = await User.findById(req.session.user);
-    const medicineDistributions = await MedicineDistribution.find() .populate('patient')
-    res.render('users/medicineHistory',{medicineDistributions,user})
+    const medicineDistributions = await MedicineDistribution.find().populate(
+      "patient"
+    );
+    res.render("users/medicineHistory", { medicineDistributions, user });
   } catch (error) {
-    console.log(error.message)    
+    console.log(error.message);
   }
+};
+
+const printList =  async(req,res)=>{
+  const {id} = req.params;
+  const patient = await Patient.findById(id)
+  const recievedMedicines = await MedicineDistribution.find({ patient: id });
+  res.render('users/printList',{recievedMedicines,patient})
 }
 
 const logout = (req, res) => {
@@ -302,4 +321,5 @@ module.exports = {
   getPatientMedicines,
   distributeMedicines,
   distributioHistory,
+  printList,
 };

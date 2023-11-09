@@ -63,8 +63,39 @@
 </nav>
 
 <div class="container mt-4">
-  <h2>Current Medicines of <%=patient[0].name %></h2>
+  <% if (error && error.length > 0) { %>
+  <div class="alert alert-danger text-center w-25" id="error-message">
+    <% error.forEach(function(message) { %>
+    <p><%= message %></p>
+    <% }); %>
+  </div>
+  <script>
+    // Add a timeout to hide the error message after 3 seconds (adjust as needed)
+    setTimeout(function () {
+      var errorMessage = document.getElementById("error-message");
+      if (errorMessage) {
+        errorMessage.style.display = "none";
+      }
+    }, 2000); // 3000 milliseconds (3 seconds)
+  </script>
+  <% } %> <% if (success && success.length > 0) { %>
+  <div class="alert alert-success text-center w-25" id="success-message">
+    <% success.forEach(function(message) { %>
+    <p><%= message %></p>
+    <% }); %>
+  </div>
+  <script>
+    // Add a timeout to hide the success message after 3 seconds (adjust as needed)
+    setTimeout(function () {
+      var successMessage = document.getElementById("success-message");
+      if (successMessage) {
+        successMessage.style.display = "none";
+      }
+    }, 2000); // 3000 milliseconds (3 seconds)
+  </script>
+  <% } %>
   <table class="table table-bordered">
+    <h2>Current Medicines of <%=patient[0].name %></h2>
     <thead>
       <tr>
         <th>Sl.No</th>
@@ -103,7 +134,12 @@
 </div>
 <% if(recievedMedicines.length){ %>
 <div class="container mt-4">
-  <h2>Recieved Medicines of <%=patient[0].name %></h2>
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>Received Medicines of <%=patient[0].name %></h2>
+    <a href="/printList/<%=patient[0]._id%>" class="btn btn-outline-dark"
+      >Print List</a
+    >
+  </div>
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -142,5 +178,22 @@
   integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
   crossorigin="anonymous"
 ></script>
+
+<style>
+  #success-message {
+    position: fixed;
+    top: 20%;
+    right: 10px;
+    transform: translateY(-80%);
+    z-index: 1000;
+  }
+  #error-message {
+    position: fixed;
+    top: 20%;
+    right: 10px;
+    transform: translateY(-80%);
+    z-index: 1000;
+  }
+</style>
 
 <%- include('../layouts/footer') %>

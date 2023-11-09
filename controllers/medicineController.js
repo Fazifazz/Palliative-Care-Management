@@ -22,7 +22,6 @@ exports.ShowAddMedicine = async (req, res) => {
 
 exports.addMedicine = async (req, res) => {
   const { name, brand, batch, expiry, stock } = req.body;
-
   function generateSlno() {
     let UniqueNum = randomString.generate({
       length: 4,

@@ -1,0 +1,50 @@
+<%- include('../layouts/header.ejs') %>
+
+<div class="container-list mt-4">
+  <center><h2>Recieved Medicines List</h2></center>
+  <P>NAME:   <%=patient.name%></P>
+  <p>MOBILE: <%=patient.mobile%></p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Medicine Slno.</th>
+        <th>Medicine Name</th>
+        <th>Count</th>
+        <th>Recieved Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% recievedMedicines.forEach((med)=>{ %>
+      <tr>
+        <td><%=med.Slno%></td>
+        <td><%=med.medicineName%></td>
+        <td><%=med.count%></td>
+        <td><%=med.distributedDate.toDateString()%></td>
+        <td><%=med.distributedDate.toTimeString().split(" ")[0] %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<a class="print btn btn-outline-dark" onclick="return window.print()">print</a>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+  crossorigin="anonymous"
+></script>
+
+<style>
+  .container-list {
+    position: relative;
+  }
+  /* Style the Print List button */
+  .print {
+    position: absolute;
+    bottom: 20px; /* Adjust the vertical position as needed */
+    right: 40px; /* Adjust the horizontal position as needed */
+  }
+</style>
+
+<%- include('../layouts/footer') %>
