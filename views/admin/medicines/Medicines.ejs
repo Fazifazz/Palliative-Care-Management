@@ -50,6 +50,7 @@
                 <th>Slno.</th>
                 <th>Name</th>
                 <th>Brand</th>
+                <th>stock</th>
                 <th>batch</th>
                 <th>expiry</th>
                 <th>Actions</th>
@@ -57,10 +58,27 @@
         </thead>
         <tbody>
             <% medicines.forEach(medicine => { %>
+              <% if(medicine.stock<10 || medicine.expiry <= new Date()){ %>
                 <tr>
+                    <td style="background-color: red;"><%= medicine.Slno %></td>
+                    <td style="background-color: red;"><%= medicine.name %></td>
+                    <td style="background-color: red;"><%= medicine.brand %></td>
+                    <td style="background-color: red;"><%= medicine.stock %></td> 
+                    <td style="background-color: red;"><%= medicine.batch %></td>
+                    <td style="background-color: red;"><%= medicine.expiry.toDateString() %></td>
+                    <td style="background-color: red;">
+                        <a href="/admin/medicines/<%= medicine._id %>/edit" class="btn btn-warning btn-sm rounded-pill">Edit</a>
+                        <form action="/admin/medicines/<%= medicine._id %>/destroy?_method=DELETE" method="POST" class="d-inline-block">
+                            <button type="submit" onclick="return alert('Are you sure to delete this medicine?')" class="btn btn-sm btn-danger rounded-pill">Delete</a>
+                        </form>
+                    </td>
+                </tr>
+                <% }else{ %>
+                  <tr>
                     <td><%= medicine.Slno %></td>
                     <td><%= medicine.name %></td>
                     <td><%= medicine.brand %></td>
+                    <td><%= medicine.stock %></td> 
                     <td><%= medicine.batch %></td>
                     <td><%= medicine.expiry.toDateString() %></td>
                     <td>
@@ -70,10 +88,12 @@
                         </form>
                     </td>
                 </tr>
+                <% } %>
             <% }) %>
         </tbody>
     </table>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <%- include('../../layouts/footer.ejs') %>

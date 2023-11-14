@@ -45,12 +45,12 @@
           </ul>
         </li>
       </ul>
-      <form action="/searchPatient" method="post">
+      <form action="/searchMedicine" method="post">
         <div class="d-flex">
           <input
             type="search"
             name="q"
-            placeholder="Search Patient"
+            placeholder="Search Medicine"
             class="form-control rounded-pill"
           />
           <button type="submit" class="btn btn-success rounded-pill ms-2">
@@ -76,6 +76,16 @@
         </thead>
         <tbody>
             <% medicines.forEach(medicine => { %>
+              <% if(medicine.stock<10 || medicine.expiry <= new Date()){ %>
+                <tr>
+                    <td style="background-color: red;"><%= medicine.Slno %></td>
+                    <td style="background-color: red;"><%= medicine.name %></td>
+                    <td style="background-color: red;"><%= medicine.brand %></td>
+                    <td style="background-color: red;"><%= medicine.batch %></td>
+                    <td style="background-color: red;"><%= medicine.stock %></td>
+                    <td style="background-color: red;"><%= medicine.expiry.toDateString() %></td>
+                </tr>
+                <% }else{ %>
                 <tr>
                     <td><%= medicine.Slno %></td>
                     <td><%= medicine.name %></td>
@@ -84,6 +94,7 @@
                     <td><%= medicine.stock %></td>
                     <td><%= medicine.expiry.toDateString() %></td>
                 </tr>
+                <% } %>
             <% }) %>
         </tbody>
     </table>
