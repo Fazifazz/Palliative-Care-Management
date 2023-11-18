@@ -8,6 +8,15 @@ const loadLogin = (req, res) => {
   res.render("admin/login", { error: null, message: null });
 };
 
+const securePassword = async (password) => {
+  try {
+    const passwordHash = await bcrypt.hash(password, 10);
+    return passwordHash;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 const adminLogin = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -120,18 +129,24 @@ const createUser = async (req, res) => {
       return res.render("admin/user_new", {
         error: "Email must be a valid email!",
       });
+      if(password<6){
+        return res.render("admin/createUser", {
+          message: null,
+          error: "password must be atleast 6 letters",
+        });
+      }
     const isExists = await User.findOne({ email });
     if (isExists)
       return res.render("admin/createUser", {
         error: "User already exists",
         message: null,
       });
-
+      const secPassword = await securePassword(req.body.password);
     const user = new User({
       name,
       email,
       mobile,
-      password,
+      password:secPassword,
       is_varified,
     });
     await user.save();
@@ -219,8 +234,7 @@ const searchPatient = async (req, res) => {
 
 
 const AddPatient = async (req, res) => {
-  console.log(req.body.Medicines);
-  const { name, mobile, disease, DoctorName, selectedMedicines } = req.body;
+  let { name, mobile, disease, DoctorName, selectedMedicines } = req.body;
   try {
     function generateRandomID(length) {
       const charset = "0123456789";
@@ -234,7 +248,11 @@ const AddPatient = async (req, res) => {
 
       return randomID;
     }
-
+    if(typeof selectedMedicines === "string"){
+      let medicine = selectedMedicines
+      selectedMedicines = []
+      selectedMedicines.push(medicine)
+    }
     const patient = new Patient({
       RegNo: generateRandomID(5),
       name,
@@ -246,6 +264,7 @@ const AddPatient = async (req, res) => {
       })):null,
       addingDate: Date.now(),
     });
+     console.log(patient)
     await patient.save();
     return res.redirect("/admin/patients");
   } catch (error) {
@@ -295,7 +314,7 @@ const editPatient = async (req, res) => {
 };
 
 const updatePatient = async (req, res) => {
-  const { id,name, disease, mobile, DoctorName, selectedMedicines } = req.body;
+  let { id,name, disease, mobile, DoctorName, selectedMedicines } = req.body;
   try {
     if (!name)
       return res.render("admin/createUser", { error: "Name is required" });
@@ -312,6 +331,11 @@ const updatePatient = async (req, res) => {
       return res.render("admin/createUser", {
         error: "doctors Name is required",
       });
+      if(typeof selectedMedicines === "string"){
+        let medicine = selectedMedicines
+        selectedMedicines = []
+        selectedMedicines.push(medicine)
+      }
     await Patient.findByIdAndUpdate(
       id,
       {

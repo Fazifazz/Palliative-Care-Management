@@ -26,6 +26,6 @@ app.use(flash())
 app.use('/', userRoute)
 app.use('/admin', require('./routes/adminRoute'))
 
-app.listen(5000, () => {
+app.listen(4000, () => {
     console.log("Server Started!");
 })

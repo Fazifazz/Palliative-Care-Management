@@ -235,7 +235,7 @@ const distributeMedicines = async (req, res) => {
     }
 
     const countNumber = parseInt(count, 10);
-    
+
     if (isNaN(countNumber)) {
       req.flash("error", "please enter a valid count");
       return res.status(400).json({ error: "Invalid medicine count" });
@@ -296,12 +296,12 @@ const distributioHistory = async (req, res) => {
   }
 };
 
-const printList =  async(req,res)=>{
-  const {id} = req.params;
-  const patient = await Patient.findById(id)
+const printList = async (req, res) => {
+  const { id } = req.params;
+  const patient = await Patient.findById(id);
   const recievedMedicines = await MedicineDistribution.find({ patient: id });
-  res.render('users/printList',{recievedMedicines,patient})
-}
+  res.render("users/printList", { recievedMedicines, patient });
+};
 
 const logout = (req, res) => {
   req.session.destroy();
