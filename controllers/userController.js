@@ -271,6 +271,8 @@ const distributeMedicines = async (req, res) => {
       distributedDate: Date.now(),
       staffName: staff.name,
       patient: patientId,
+      patientName:patient.name,
+      patientRgNo:patient.RegNo
     });
     const mds = await MedicineDistribution.find();
     req.flash(

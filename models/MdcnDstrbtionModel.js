@@ -16,6 +16,8 @@ const MedDistribtion = new mongoose.Schema({
     required: true,
   },
   staffName: { type: String, required: true },
+  patientName: { type: String, required: true },
+  patientRgNo: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Distribution", MedDistribtion);

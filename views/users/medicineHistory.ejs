@@ -78,17 +78,18 @@
       </tr>
     </thead>
     <tbody>
-      <% medicineDistributions.forEach((med)=>{ %>
-      <tr>
-        <td><%=med.Slno%></td>
-        <td><%=med.medicineName%></td>
-        <td><%=med.count%></td>
-        <td><%=med.patient.name%><small>(<%=med.patient.RegNo%>)</small></td>
-        <td><%=med.staffName%></td>
-        <td><%=med.distributedDate.toDateString()%></td>
-        <td><%=med.distributedDate.toTimeString().split(" ")[0] %></td>
-      </tr>
+      <% medicineDistributions.forEach((med) => { %>
+        <tr>
+          <td><%= med.Slno %></td>
+          <td><%= med.medicineName %></td>
+          <td><%= med.count %></td>
+          <td><%= med.patientName %>(<%=med.patientRgNo %>)</td>
+          <td><%= med.staffName %></td>
+          <td><%= med.distributedDate.toDateString() %></td>
+          <td><%= med.distributedDate.toTimeString().split(" ")[0] %></td>
+        </tr>
       <% }) %>
+      
     </tbody>
   </table>
 </div>
