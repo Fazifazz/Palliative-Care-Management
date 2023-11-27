@@ -55,7 +55,7 @@
           <td><%= med.Slno %></td>
           <td><%= med.medicineName %></td>
           <td><%= med.count %></td>
-          <td><%= med.patientName %>(<% med.patientRgNo %>)</td>
+          <td><%= med.patientName %>(<%= med.patientRgNo %>)</td>
           <td><%= med.staffName %></td>
           <td><%= med.distributedDate.toDateString() %></td>
           <td><%= med.distributedDate.toTimeString().split(" ")[0] %></td>
