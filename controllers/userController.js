@@ -269,7 +269,7 @@ const distributeMedicines = async (req, res) => {
       medicineName: selectedMedicine.name,
       count: countNumber,
       distributedDate: Date.now(),
-      staffName: staff.name,
+      staffName: staff.name, 
       patient: patientId,
       patientName:patient.name,
       patientRgNo:patient.RegNo
