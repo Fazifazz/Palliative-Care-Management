@@ -16,33 +16,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            More
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/">Patients</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="/medicines">Medicines</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a class="dropdown-item" href="/distributionHistory"
-                >Medicines Distributions</a
-              >
-            </li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <form action="/logout" method="post" class="dropdown-item">
-                <button type="submit" class="dropdown-item p-0">Logout</button>
-              </form>
-            </li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" href="/">Patients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/medicines">Medicines</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/distributionHistory">Medicines Distributions</a>
         </li>
       </ul>
       <form action="/searchPatient" method="post">
@@ -58,9 +39,17 @@
           </button>
         </div>
       </form>
+      <form action="/logout" method="post">
+        <button type="submit" class="btn btn-link">Logout</button>
+      </form>
     </div>
   </div>
 </nav>
+
+<!-- Rest of your HTML remains unchanged -->
+
+<!-- Rest of your HTML remains unchanged -->
+
 
 <div class="container mt-4">
   <h2>Patients List</h2>
